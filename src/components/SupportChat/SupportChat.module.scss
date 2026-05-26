@@ -1,0 +1,448 @@
+/* ===== Floating Action Button ===== */
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--btn-gradient);
+  color: white;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 6px 25px rgba(13, 115, 119, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(13, 115, 119, 0.5);
+  }
+
+  &.fabOpen {
+    background: #333;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ===== Chat Panel ===== */
+.panel {
+  position: fixed;
+  bottom: 105px;
+  right: 30px;
+  width: 380px;
+  max-height: 520px;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border-radius: 20px;
+  box-shadow: 0 15px 50px var(--shadow-color);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+
+  @media (max-width: 450px) {
+    width: calc(100vw - 20px);
+    right: 10px;
+    bottom: 100px;
+    max-height: 70vh;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Panel Header ===== */
+.panelHeader {
+  background: var(--btn-gradient);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.backBtn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: rgba(255,255,255,0.35);
+  }
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.headerTitle {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.headerStatus {
+  font-size: 11px;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.statusOpen { color: #b9f6ca; }
+.statusClosed { color: #ffcdd2; }
+
+/* ===== Panel Body ===== */
+.panelBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== Chat List ===== */
+.chatList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.chatItem {
+  width: 100%;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-main);
+
+  &:hover {
+    background: var(--input-bg);
+    border-color: var(--primary-color);
+  }
+}
+
+.chatItemTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatSubject {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.chatBadge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badgeOpen {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badgeClosed {
+  background: var(--bg-color);
+  color: var(--text-muted);
+}
+
+.chatDate {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.emptyText {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.newChatBtn {
+  margin: 12px;
+  padding: 12px;
+  background: var(--btn-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+}
+
+/* ===== New Chat Form ===== */
+.newChatForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.formLabel {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.formInput {
+  padding: 10px 14px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-radius: 10px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.formTextarea {
+  padding: 10px 14px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-radius: 10px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: var(--btn-radius);
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: var(--text-muted);
+
+  &:hover {
+    background: var(--bg-color);
+  }
+}
+
+.submitBtn {
+  flex: 1;
+  padding: 10px;
+  background: var(--btn-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+/* ===== Messages Area ===== */
+.messagesArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-color);
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  position: relative;
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  background: var(--btn-gradient);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+
+  .bubbleName {
+    color: rgba(255,255,255,0.75);
+  }
+  .bubbleTime {
+    color: rgba(255,255,255,0.6);
+  }
+}
+
+.bubbleAdmin {
+  align-self: flex-start;
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 4px;
+
+  .bubbleName {
+    color: var(--primary-color);
+  }
+  .bubbleTime {
+    color: var(--text-muted);
+  }
+}
+
+.bubbleName {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.bubbleText {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.bubbleTime {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 10px;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ===== Input Area ===== */
+.inputArea {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.messageInput {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-radius: var(--btn-radius);
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.sendBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--btn-gradient);
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.closedBanner {
+  padding: 14px;
+  text-align: center;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--bg-color);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}

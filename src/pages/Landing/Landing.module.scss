@@ -1,0 +1,318 @@
+/* ===== Landing Page ===== */
+
+.root {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* ===== Hero ===== */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 30px;
+}
+
+.heroSubtitle {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  letter-spacing: 6px;
+  color: var(--primary-light);
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.heroTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 58px;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 1.15;
+  margin-bottom: 25px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 900px) {
+    font-size: 42px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
+}
+
+.heroDesc {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroButton {
+  display: inline-block;
+  border: none;
+  color: #ffffff;
+  background: var(--btn-gradient);
+  font-size: 16px;
+  font-weight: 400;
+  transition: all 0.4s ease;
+  font-family: "Cormorant Garamond", serif;
+  padding: 16px 55px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 3px;
+  border-radius: var(--btn-radius);
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+    transform: translateY(-2px);
+  }
+}
+
+/* ===== Container ===== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== Features ===== */
+
+.features {
+  padding: 80px 0;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+.featureCard {
+  text-align: center;
+  padding: 40px 30px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.featureIcon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.featureTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 15px;
+}
+
+.featureDesc {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ===== Top Rated ===== */
+
+.topRated {
+  padding: 80px 0 100px;
+}
+
+.sectionTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--text-main);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sectionSubtitle {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 50px;
+  letter-spacing: 1px;
+}
+
+.loading {
+  text-align: center;
+  font-family: "Josefin Sans", sans-serif;
+  color: var(--primary-color);
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.topGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 35px;
+  margin-bottom: 50px;
+}
+
+.topCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--card-radius);
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.topCardRank {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 38px;
+  height: 38px;
+  background: var(--btn-gradient);
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.topCardImage {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+
+  .topCard:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.topCardContent {
+  padding: 25px 25px 30px;
+}
+
+.topCardTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.topCardRating,
+.topCardRegion,
+.topCardProfile {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  span {
+    font-size: 15px;
+  }
+}
+
+.topCardButton {
+  width: 100%;
+  border: none;
+  color: #ffffff;
+  background: var(--btn-gradient);
+  font-size: 15px;
+  font-weight: 400;
+  transition: 0.3s ease;
+  font-family: "Cormorant Garamond", serif;
+  padding: 12px 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-top: 15px;
+  border-radius: var(--btn-radius);
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+}
+
+/* ===== View All ===== */
+
+.viewAllWrap {
+  text-align: center;
+}
+
+.viewAllButton {
+  display: inline-block;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  font-family: "Cormorant Garamond", serif;
+  padding: 14px 50px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 2px;
+  border-radius: var(--btn-radius);
+
+  &:hover {
+    background: var(--btn-gradient);
+    color: #fff;
+    border-color: transparent;
+  }
+}

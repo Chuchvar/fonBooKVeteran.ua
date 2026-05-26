@@ -1,0 +1,54 @@
+.card {
+	width: 354px;
+	img {
+		width: 354px;
+		min-height: 270px;
+		@media (max-width: 444px) {
+			width: 300px;
+			min-height: 230px;
+		}
+	}
+	.title {
+		font-family: 'Cormorant Garamond', serif;
+		font-style: normal;
+		color: #fff;
+		font-size: 25px;
+		background: var(--btn-gradient);
+		text-align: center;
+		padding: 15px 0;
+		font-weight: 700;
+		@media (max-width: 444px) {
+			position: relative;
+			left: -25px;
+		}
+	}
+	.labels__list {
+		padding: 40px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 13px 0;
+		background-color: #fff;
+		border-bottom: 3px solid var(--primary-color);
+
+		.label__item {
+			color: #4d4d4d;
+			font-size: 17px;
+			font-family: 'Josefin Sans', sans-serif;
+			position: relative;
+			padding-left: 25px;
+			&::before {
+				width: 15px;
+				height: 15px;
+				top: 0px;
+				left: 0;
+				position: absolute;
+				content: '';
+				background: url('../../../assets/home/restaurant/check.svg');
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				z-index: 10;
+			}
+		}
+	}
+}

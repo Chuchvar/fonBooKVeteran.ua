@@ -1,0 +1,227 @@
+.header {
+  max-width: 100%;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 25px;
+  background: var(--bg-secondary);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px var(--shadow-color);
+  transition: background 0.3s ease;
+
+  &.transparent {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+
+    .content .left .textLogo {
+      color: #fff;
+    }
+    .content .left .textSubtitle {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .content .right ul li a {
+      color: #fff !important;
+      &:hover {
+        color: var(--primary-light) !important;
+      }
+    }
+    .content .right .authButtons button {
+      background: transparent !important;
+      border: 1px solid rgba(255, 255, 255, 0.7) !important;
+      color: #fff !important;
+      &:hover {
+        background: var(--btn-gradient) !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+    }
+  }
+
+  .content {
+    max-width: 1190px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+
+    .left {
+      cursor: pointer;
+      flex-shrink: 0;
+      .textLogo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+        color: var(--primary-color);
+        letter-spacing: 2px;
+        font-weight: 600;
+        margin: 0;
+        white-space: nowrap;
+      }
+      .textSubtitle {
+        display: block;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #999;
+        margin-top: -2px;
+      }
+    }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        z-index: 101;
+
+        span {
+          display: block;
+          height: 3px;
+          background-color: var(--primary-color);
+          border-radius: 3px;
+          transition: all 0.3s ease-in-out;
+
+          &.open:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+          }
+          &.open:nth-child(2) {
+            opacity: 0;
+          }
+          &.open:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+          }
+        }
+        
+        @media (max-width: 930px) {
+          display: flex;
+        }
+      }
+
+      .right {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+
+        @media (max-width: 930px) {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 280px;
+          height: 100vh;
+          background: #111;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 50px 30px;
+          box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+          transition: right 0.3s ease-in-out;
+          
+          &.mobileOpen {
+            right: 0;
+          }
+
+          ul {
+            flex-direction: column;
+            gap: 20px 0;
+            width: 100%;
+            
+            li {
+              width: 100%;
+              a {
+                font-size: 16px;
+                display: block;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                color: #fff !important;
+              }
+            }
+          }
+
+          .authButtons {
+            margin-top: 20px;
+            flex-direction: column;
+            width: 100%;
+            
+            button {
+              width: 100%;
+              padding: 12px;
+            }
+          }
+        }
+
+        ul {
+          display: flex;
+          gap: 0 22px;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+
+          li {
+            a {
+               font-size: 13px;
+               font-family: "Josefin Sans", sans-serif;
+               text-transform: uppercase;
+               letter-spacing: 1px;
+               transition: 0.3s ease;
+               color: var(--text-main); 
+               font-weight: 500;
+               text-decoration: none;
+               white-space: nowrap;
+               &:hover {
+                 color: var(--primary-color);
+               }
+            }
+          }
+        }
+
+        .authButtons {
+          display: flex;
+          gap: 10px;
+
+          button {
+            color: #ffffff;
+            background: var(--btn-gradient);
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            font-family: "Josefin Sans", sans-serif;
+            padding: 8px 20px;
+            text-transform: uppercase;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: var(--btn-radius);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            &:hover {
+              background: var(--btn-gradient-hover);
+            }
+          }
+        }
+
+        .themeToggle {
+          background: transparent;
+          border: 1px solid var(--border-color);
+          font-size: 18px;
+          cursor: pointer;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.3s ease;
+          color: var(--text-main);
+
+          &:hover {
+            background: var(--border-color);
+          }
+        }
+      }
+    }
+  }

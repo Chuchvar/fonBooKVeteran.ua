@@ -1,0 +1,345 @@
+.formSection {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  margin-top: 50px;
+  border-radius: var(--card-radius);
+}
+
+.formTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.formSubtitle {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.loginPrompt {
+  text-align: center;
+  padding: 30px;
+  
+  p {
+    font-family: "Josefin Sans", sans-serif;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+  }
+}
+
+.loginButton {
+  display: inline-block;
+  border: none;
+  color: #ffffff;
+  background: var(--btn-gradient);
+  font-size: 15px;
+  font-family: "Cormorant Garamond", serif;
+  padding: 12px 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  border-radius: var(--btn-radius);
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.fieldInput {
+  padding: 13px 16px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  border: 1px solid var(--input-border);
+  outline: none;
+  transition: border-color 0.3s ease;
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-radius: 12px;
+
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.textarea {
+  padding: 13px 16px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  border: 1px solid var(--input-border);
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.3s ease;
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border-radius: 12px;
+
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}
+
+.fileUpload {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fileInput {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: #555;
+  
+  &::file-selector-button {
+    padding: 10px 20px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--btn-radius);
+    
+    &:hover {
+      background: var(--btn-gradient);
+      color: #fff;
+      border-color: transparent;
+    }
+  }
+}
+
+.fileHint {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 12px;
+  color: #999;
+}
+
+.submitButton {
+  width: 100%;
+  border: none;
+  color: #ffffff;
+  background: var(--btn-gradient);
+  font-size: 16px;
+  font-weight: 400;
+  transition: 0.3s ease;
+  font-family: "Cormorant Garamond", serif;
+  padding: 14px 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  border-radius: var(--btn-radius);
+
+  &:hover {
+    background: var(--btn-gradient-hover);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.successMessage {
+  text-align: center;
+  padding: 30px;
+  
+  h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-family: "Josefin Sans", sans-serif;
+    color: #555;
+    font-size: 15px;
+  }
+}
+
+.errorMessage {
+  font-family: "Josefin Sans", sans-serif;
+  color: #d32f2f;
+  font-size: 14px;
+  background: #fff5f5;
+  padding: 12px 16px;
+  border: 1px solid #ffcdd2;
+  border-radius: 12px;
+}
+
+.warningPrompt {
+  background-color: #fff3e0;
+  border: 1px solid #ffb74d;
+  border-radius: var(--card-radius);
+  color: #663c00;
+
+  p.warningTitle {
+    color: #e65100;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.roomsLeft {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: #2e7d32;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  background-color: #e8f5e9;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.outOfRooms {
+  color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.priceDisplay {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 15px;
+  margin-top: 5px;
+
+  span:first-child {
+    font-size: 16px;
+    font-family: "Josefin Sans", sans-serif;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .finalPrice {
+    color: var(--primary-color);
+  }
+
+  .freeBadge {
+    background: #4caf50;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: "Josefin Sans", sans-serif;
+    letter-spacing: 1px;
+  }
+}
+
+.packageDescription {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.4;
+  padding-left: 5px;
+}
+
+.pricingSection {
+  margin-top: 10px;
+  padding: 20px;
+  background: var(--bg-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.priceRow {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 15px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.discountRow {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 14px;
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .oldPrice {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+}
+
+.buttonsRow {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.backButton {
+  flex: 1;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 14px 24px;
+  border-radius: var(--btn-radius);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  
+  &:hover {
+    background: #e0e0e0;
+  }
+}

@@ -1,0 +1,235 @@
+.reviewsContainer {
+  margin-top: 40px;
+  padding: 40px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  text-align: left;
+  border-radius: var(--card-radius);
+  color: var(--text-main);
+
+  .title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+  }
+
+  .reviewForm {
+    background: var(--bg-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    border-radius: 12px;
+
+    h4 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      color: var(--text-main);
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .formGroup {
+      margin-bottom: 20px;
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-family: "Josefin Sans", sans-serif;
+        font-weight: 600;
+        color: var(--text-main);
+      }
+
+      .starRating {
+        display: flex;
+        gap: 5px;
+
+        .starBtn {
+          background: none;
+          border: none;
+          font-size: 30px;
+          cursor: pointer;
+          color: #ddd;
+          transition: color 0.2s;
+
+          &.activeStar {
+            color: var(--accent-color);
+          }
+
+          &:hover {
+            color: var(--primary-dark);
+          }
+        }
+      }
+
+      select, textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--input-border);
+        background-color: var(--input-bg);
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 15px;
+        color: var(--text-main);
+        transition: border-color 0.3s ease;
+        border-radius: 12px;
+        
+        &:focus {
+          outline: none;
+          border-color: var(--primary-color);
+        }
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .submitBtn {
+      display: inline-block;
+      border: none;
+      color: #ffffff;
+      background: var(--btn-gradient);
+      font-size: 16px;
+      font-weight: 400;
+      transition: 0.3s ease;
+      font-family: "Cormorant Garamond", serif;
+      padding: 12px 35px;
+      text-transform: uppercase;
+      cursor: pointer;
+      letter-spacing: 1px;
+      border-radius: var(--btn-radius);
+
+      &:hover:not(:disabled) {
+        background: var(--btn-gradient-hover);
+      }
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .loginPrompt {
+    background: var(--bg-color);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    text-align: center;
+    border-radius: 12px;
+
+    p {
+      font-family: "Josefin Sans", sans-serif;
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      margin-top: 0;
+    }
+
+    .submitBtn {
+      display: inline-block;
+      border: none;
+      color: #ffffff;
+      background: var(--btn-gradient);
+      font-size: 16px;
+      font-weight: 400;
+      transition: 0.3s ease;
+      font-family: "Cormorant Garamond", serif;
+      padding: 12px 35px;
+      text-transform: uppercase;
+      cursor: pointer;
+      letter-spacing: 1px;
+      border-radius: var(--btn-radius);
+
+      &:hover {
+        background: var(--btn-gradient-hover);
+      }
+    }
+  }
+
+  .filterBar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+
+    button {
+      padding: 6px 16px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      border-radius: 20px;
+      font-family: "Josefin Sans", sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &.activeFilter, &:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+      }
+    }
+  }
+
+  .reviewsList {
+    .reviewCard {
+      background: var(--bg-color);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+
+      .reviewHeader {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+
+        strong {
+          font-family: "Cormorant Garamond", serif;
+          font-size: 20px;
+          color: var(--text-main);
+        }
+
+        .rating {
+          font-family: "Josefin Sans", sans-serif;
+          color: var(--primary-color);
+          font-weight: 600;
+          font-size: 14px;
+        }
+
+        .date {
+          font-family: "Josefin Sans", sans-serif;
+          color: var(--text-muted);
+          font-size: 13px;
+          margin-left: auto;
+        }
+      }
+
+      .comment {
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 15px;
+        color: var(--text-main);
+        line-height: 1.8;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+    }
+
+    .empty {
+      font-family: "Josefin Sans", sans-serif;
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 16px;
+    }
+  }
+}
