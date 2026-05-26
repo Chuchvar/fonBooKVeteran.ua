@@ -88,6 +88,16 @@ class AuthService {
 		}
 	}
 
+	async updateName(name: string) {
+		const { data } = await axios.put('/api/auth/profile', { name })
+		return data
+	}
+
+	async updatePassword(currentPassword: string, newPassword: string) {
+		const { data } = await axios.put('/api/auth/password', { currentPassword, newPassword })
+		return data
+	}
+
 	async logout() {
 		// Оскільки токени JWT зберігаються локально, нам не потрібно робити запит на бекенд
 		return true;
