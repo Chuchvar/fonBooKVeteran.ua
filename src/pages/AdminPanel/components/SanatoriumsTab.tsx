@@ -257,6 +257,12 @@ const SanatoriumsTab: React.FC = () => {
             hasStandardPackage,
             hasPremiumPackage,
             hasRehabilitationPackage,
+            googleRating: Number(formData.get('googleRating')),
+            googleReviewsCount: Number(formData.get('googleReviewsCount')),
+            ratingBooking: Number(formData.get('ratingBooking')),
+            bookingReviewsCount: Number(formData.get('bookingReviewsCount')),
+            ratingTripAdvisor: Number(formData.get('ratingTripAdvisor')),
+            tripAdvisorReviewsCount: Number(formData.get('tripAdvisorReviewsCount')),
         };
         saveSanatoriumMutation.mutate(data);
     };
@@ -489,6 +495,69 @@ const SanatoriumsTab: React.FC = () => {
                                             defaultValue={editingSanatorium?.availableRooms || 10} 
                                             min="0"
                                             required 
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* External Ratings Section */}
+                                <h4 style={{marginTop: '20px', marginBottom: '10px', fontSize: '1.1rem'}}>Оцінки з інших платформ</h4>
+                                <div style={{ display: 'flex', gap: '15px' }}>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>Оцінка Google (0-5)</label>
+                                        <input 
+                                            type="number"
+                                            name="googleRating" 
+                                            defaultValue={editingSanatorium?.googleRating || 0} 
+                                            min="0" max="5" step="0.1"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>К-сть відгуків Google</label>
+                                        <input 
+                                            type="number"
+                                            name="googleReviewsCount" 
+                                            defaultValue={editingSanatorium?.googleReviewsCount || 0} 
+                                            min="0"
+                                        />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: '15px' }}>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>Оцінка Booking (0-10)</label>
+                                        <input 
+                                            type="number"
+                                            name="ratingBooking" 
+                                            defaultValue={editingSanatorium?.ratingBooking || 0} 
+                                            min="0" max="10" step="0.1"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>К-сть відгуків Booking</label>
+                                        <input 
+                                            type="number"
+                                            name="bookingReviewsCount" 
+                                            defaultValue={editingSanatorium?.bookingReviewsCount || 0} 
+                                            min="0"
+                                        />
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: '15px' }}>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>Оцінка TripAdvisor (0-5)</label>
+                                        <input 
+                                            type="number"
+                                            name="ratingTripAdvisor" 
+                                            defaultValue={editingSanatorium?.ratingTripAdvisor || 0} 
+                                            min="0" max="5" step="0.1"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup} style={{ flex: 1 }}>
+                                        <label>К-сть відгуків TripAdvisor</label>
+                                        <input 
+                                            type="number"
+                                            name="tripAdvisorReviewsCount" 
+                                            defaultValue={editingSanatorium?.tripAdvisorReviewsCount || 0} 
+                                            min="0"
                                         />
                                     </div>
                                 </div>

@@ -40,8 +40,12 @@ export interface ISanatorium {
     hasStandardPackage?: boolean;
     hasPremiumPackage?: boolean;
     hasRehabilitationPackage?: boolean;
+    googleRating?: number;
+    googleReviewsCount?: number;
     ratingBooking?: number;
+    bookingReviewsCount?: number;
     ratingTripAdvisor?: number;
+    tripAdvisorReviewsCount?: number;
 }
 
 export interface IPageResponse<T> {
