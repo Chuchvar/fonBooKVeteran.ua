@@ -83,37 +83,6 @@ const Profile: React.FC = () => {
 
 	const queryClient = useQueryClient();
 
-	const [isEditingProfile, setIsEditingProfile] = useState(false)
-	const [newName, setNewName] = useState('')
-	const [currentPassword, setCurrentPassword] = useState('')
-	const [newPassword, setNewPassword] = useState('')
-
-	const { mutate: updateName, isPending: isUpdatingName } = useMutation({
-		mutationFn: (name: string) => authService.updateName(name),
-		onSuccess: () => {
-			toast.success('Ім\'я успішно оновлено')
-			queryClient.invalidateQueries({ queryKey: ['userData'] })
-		},
-		onError: (err: unknown) => {
-			const error = err as { message?: string };
-			toast.error(error?.message || 'Помилка при оновленні імені')
-		}
-	})
-
-	const { mutate: updatePassword, isPending: isUpdatingPassword } = useMutation({
-		mutationFn: (data: { currentPassword: string, newPassword: string }) => authService.updatePassword(data.currentPassword, data.newPassword),
-		onSuccess: () => {
-			toast.success('Пароль успішно змінено')
-			setCurrentPassword('')
-			setNewPassword('')
-			setIsEditingProfile(false)
-		},
-		onError: (err: unknown) => {
-			const error = err as { message?: string };
-			toast.error(error?.message || 'Помилка при зміні пароля')
-		}
-	})
-
 	const { mutate: verifyAccount, isPending: isVerifying } = useMutation({
 		mutationFn: (formData: FormData) => verificationService.submitVerification(formData),
 		onSuccess: () => {
@@ -278,7 +247,7 @@ const Profile: React.FC = () => {
 											<div className={styles.avatar__left}>
 												<img 
 													className={styles.avatar__icon} 
-													src={userData?.user?.photoPath ? `https://backbookveteranua-production.up.railway.app/${userData.user.photoPath.replace(/\\/g, '/')}` : (userPhotoUrl || avatar)} 
+													src={userData?.user?.photoPath ? `http://localhost:8080/${userData.user.photoPath.replace(/\\/g, '/')}` : (userPhotoUrl || avatar)} 
 													alt='avatar' 
 													style={(userData?.user?.photoPath || userPhotoUrl) ? { objectFit: 'cover', width: '64px', height: '64px', borderRadius: '50%' } : {}}
 												/>
@@ -292,88 +261,22 @@ const Profile: React.FC = () => {
 									<div className={styles.info__right}>
 										<button 
 											style={{
-												background: 'transparent',
-												color: '#0d7377',
-												border: '1px solid #0d7377',
-												padding: '8px 15px',
-												cursor: 'pointer',
-												borderRadius: '5px',
-												marginRight: '10px'
-											}} 
-											onClick={() => {
-												setNewName(userData.user.name);
-												setIsEditingProfile(!isEditingProfile);
-											}}
-										>
-											{isEditingProfile ? 'Скасувати' : 'Редагувати профіль'}
-										</button>
-										<button 
-											style={{
 												background: 'linear-gradient(135deg, #0a5c5f, #0d7377, #14a3a8)', 
 												color: 'white', 
 												border: 'none', 
-												padding: '8px 15px', 
+												padding: '10px 20px', 
 												cursor: 'pointer',
-												borderRadius: '5px'
+												fontFamily: 'Cormorant Garamond, serif',
+												fontSize: '16px',
+												textTransform: 'uppercase',
+												borderRadius: '50px'
 											}} 
 											onClick={() => logout()}
 										>
-											Вийти
+											Вийти з акаунту
 										</button>
 									</div>
 								</div>
-								
-								{isEditingProfile && (
-									<div style={{ marginTop: '20px', padding: '20px', background: '#f9f9f9', borderRadius: '8px', border: '1px solid #eee' }}>
-										<h4 style={{ marginBottom: '15px', color: '#333' }}>Налаштування профілю</h4>
-										
-										<div style={{ marginBottom: '20px' }}>
-											<label style={{ display: 'block', marginBottom: '5px', color: '#555', fontSize: '14px' }}>Ім'я та Прізвище</label>
-											<div style={{ display: 'flex', gap: '10px' }}>
-												<input 
-													type="text" 
-													value={newName} 
-													onChange={(e) => setNewName(e.target.value)} 
-													style={{ flex: 1, padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
-												/>
-												<button 
-													onClick={() => updateName(newName)}
-													disabled={isUpdatingName}
-													style={{ background: '#0d7377', color: 'white', border: 'none', padding: '0 20px', borderRadius: '5px', cursor: 'pointer' }}
-												>
-													{isUpdatingName ? 'Збереження...' : 'Зберегти ім\'я'}
-												</button>
-											</div>
-										</div>
-
-										<hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '20px 0' }} />
-
-										<div>
-											<label style={{ display: 'block', marginBottom: '5px', color: '#555', fontSize: '14px' }}>Зміна пароля</label>
-											<input 
-												type="password" 
-												placeholder="Поточний пароль" 
-												value={currentPassword} 
-												onChange={(e) => setCurrentPassword(e.target.value)} 
-												style={{ display: 'block', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '10px', boxSizing: 'border-box' }}
-											/>
-											<input 
-												type="password" 
-												placeholder="Новий пароль" 
-												value={newPassword} 
-												onChange={(e) => setNewPassword(e.target.value)} 
-												style={{ display: 'block', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '10px', boxSizing: 'border-box' }}
-											/>
-											<button 
-												onClick={() => updatePassword({ currentPassword, newPassword })}
-												disabled={isUpdatingPassword || !currentPassword || !newPassword}
-												style={{ background: '#0d7377', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
-											>
-												{isUpdatingPassword ? 'Збереження...' : 'Змінити пароль'}
-											</button>
-										</div>
-									</div>
-								)}
 							</div>
 						</>
 					) : section === 2 ? (

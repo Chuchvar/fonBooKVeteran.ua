@@ -68,7 +68,51 @@ const Home: React.FC = () => {
         return true;
     }) ?? [];
 
-    // Real ratings are now fetched from backend, so no mock effect is needed.
+    // Live rating simulation
+    useEffect(() => {
+        if (!sanatoriums || sanatoriums.length === 0) return;
+
+        // Init live ratings from server data
+        const initial: Record<number, { booking: number; tripAdvisor: number }> = {};
+        sanatoriums.forEach(s => {
+            if (!liveRatings[s.id]) {
+                initial[s.id] = {
+                    booking: s.ratingBooking ?? 0,
+                    tripAdvisor: s.ratingTripAdvisor ?? 0,
+                };
+            }
+        });
+        if (Object.keys(initial).length > 0) {
+            setLiveRatings(prev => ({ ...prev, ...initial }));
+        }
+
+        const interval = setInterval(() => {
+            setLiveRatings(prev => {
+                const next = { ...prev };
+                const flashMap: Record<number, boolean> = {};
+                sanatoriums.forEach(s => {
+                    if (next[s.id]) {
+                        const bBase = s.ratingBooking ?? 0;
+                        const tBase = s.ratingTripAdvisor ?? 0;
+                        // Random fluctuation ±0.1
+                        const bDelta = (Math.random() - 0.5) * 0.2;
+                        const tDelta = (Math.random() - 0.5) * 0.2;
+                        next[s.id] = {
+                            booking: Math.round(Math.max(1, Math.min(10, bBase + bDelta)) * 10) / 10,
+                            tripAdvisor: Math.round(Math.max(1, Math.min(5, tBase + tDelta)) * 10) / 10,
+                        };
+                        flashMap[s.id] = true;
+                    }
+                });
+                setRatingFlash(flashMap);
+                setTimeout(() => setRatingFlash({}), 1500);
+                return next;
+            });
+        }, 30000);
+
+        return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageData]);
 
     const hasFilters = searchFilter || regionFilter || specializationFilter || minPriceFilter || maxPriceFilter || minRatingFilter > 0;
 
@@ -273,9 +317,10 @@ const Home: React.FC = () => {
                 <div className={styles.grid}>
                     {sanatoriums && sanatoriums.length > 0 ? (
                         sanatoriums.map((sanatorium: ISanatorium) => {
-                            const googleVal = sanatorium.googleRating ?? 0;
-                            const bookingVal = sanatorium.ratingBooking ?? 0;
-                            const tripVal = sanatorium.ratingTripAdvisor ?? 0;
+                            const live = liveRatings[sanatorium.id];
+                            const isFlashing = ratingFlash[sanatorium.id];
+                            const bookingVal = live?.booking ?? sanatorium.ratingBooking ?? 0;
+                            const tripVal = live?.tripAdvisor ?? sanatorium.ratingTripAdvisor ?? 0;
 
                             return (
                                 <div
@@ -289,20 +334,14 @@ const Home: React.FC = () => {
                                     >
                                         {/* External Ratings Badges */}
                                         <div className={styles.ratingBadges}>
-                                            {googleVal > 0 && (
-                                                <div className={`${styles.badge} ${styles.badgeGoogle}`} style={{ backgroundColor: '#DB4437', color: 'white' }}>
-                                                    <span className={styles.badgeIcon}>G</span>
-                                                    <span className={styles.badgeValue}>{googleVal.toFixed(1)}</span>
-                                                </div>
-                                            )}
                                             {bookingVal > 0 && (
-                                                <div className={`${styles.badge} ${styles.badgeBooking}`}>
+                                                <div className={`${styles.badge} ${styles.badgeBooking} ${isFlashing ? styles.badgeFlash : ''}`}>
                                                     <span className={styles.badgeIcon}>B</span>
                                                     <span className={styles.badgeValue}>{bookingVal.toFixed(1)}</span>
                                                 </div>
                                             )}
                                             {tripVal > 0 && (
-                                                <div className={`${styles.badge} ${styles.badgeTrip}`}>
+                                                <div className={`${styles.badge} ${styles.badgeTrip} ${isFlashing ? styles.badgeFlash : ''}`}>
                                                     <span className={styles.badgeIcon}>TA</span>
                                                     <span className={styles.badgeValue}>{tripVal.toFixed(1)}</span>
                                                 </div>

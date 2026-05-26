@@ -84,19 +84,11 @@ const SanatoriumDetail: React.FC = () => {
                         <div className={styles.infoLabel}>Адреса</div>
                         <div className={styles.infoValue}>{sanatorium.address || 'Не вказано'}</div>
                     </div>
-                    {sanatorium.googleRating !== undefined && sanatorium.googleRating > 0 && (
-                        <div className={styles.infoCard}>
-                            <div className={styles.infoLabel}>Рейтинг Google</div>
-                            <div className={styles.infoValue} style={{ color: '#DB4437', fontWeight: 700 }}>
-                                {sanatorium.googleRating.toFixed(1)} / 5 <span style={{fontSize:'0.8rem', color:'#666', fontWeight: 400}}>({sanatorium.googleReviewsCount} відг.)</span>
-                            </div>
-                        </div>
-                    )}
                     {sanatorium.ratingBooking !== undefined && sanatorium.ratingBooking > 0 && (
                         <div className={styles.infoCard}>
                             <div className={styles.infoLabel}>Рейтинг Booking.com</div>
                             <div className={styles.infoValue} style={{ color: '#003580', fontWeight: 700 }}>
-                                {sanatorium.ratingBooking.toFixed(1)} / 10 <span style={{fontSize:'0.8rem', color:'#666', fontWeight: 400}}>({sanatorium.bookingReviewsCount} відг.)</span>
+                                {sanatorium.ratingBooking.toFixed(1)} / 10
                             </div>
                         </div>
                     )}
@@ -104,7 +96,7 @@ const SanatoriumDetail: React.FC = () => {
                         <div className={styles.infoCard}>
                             <div className={styles.infoLabel}>Рейтинг TripAdvisor</div>
                             <div className={styles.infoValue} style={{ color: '#00aa6c', fontWeight: 700 }}>
-                                {sanatorium.ratingTripAdvisor.toFixed(1)} / 5 <span style={{fontSize:'0.8rem', color:'#666', fontWeight: 400}}>({sanatorium.tripAdvisorReviewsCount} відг.)</span>
+                                {sanatorium.ratingTripAdvisor.toFixed(1)} / 5
                             </div>
                         </div>
                     )}

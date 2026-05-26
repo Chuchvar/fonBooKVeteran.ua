@@ -330,7 +330,7 @@ const BookingsTab: React.FC = () => {
                         }}>
                             {historyUser.photoPath ? (
                                 <img 
-                                    src={`https://backbookveteranua-production.up.railway.app/${historyUser.photoPath.replace(/\\/g, '/').replace(/^\//, '')}`} 
+                                    src={`http://localhost:8080/${historyUser.photoPath.replace(/\\/g, '/').replace(/^\//, '')}`} 
                                     alt="Аватар" 
                                     style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--primary-color)' }}
                                 />
@@ -351,7 +351,7 @@ const BookingsTab: React.FC = () => {
                                 </p>
                                 {historyUser.documentPath && (
                                     <a 
-                                        href={`https://backbookveteranua-production.up.railway.app/${historyUser.documentPath.replace(/\\/g, '/').replace(/^\//, '')}`} 
+                                        href={`http://localhost:8080/${historyUser.documentPath.replace(/\\/g, '/').replace(/^\//, '')}`} 
                                         target="_blank" 
                                         rel="noreferrer" 
                                         style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginTop: '10px', background: 'var(--primary-color)', color: 'white', padding: '6px 12px', borderRadius: '20px', textDecoration: 'none', fontSize: '13px', fontWeight: 'bold' }}
