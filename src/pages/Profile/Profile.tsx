@@ -13,6 +13,7 @@ import { CiBookmarkCheck, CiUser, CiCircleCheck } from 'react-icons/ci'
 
 import avatar from '../../assets/profile/user-avatar.png'
 import styles from './Profile.module.scss'
+import ChangeUserDataForm from './ChangeUserDataForm/ChangeUserDataForm'
 
 interface IBookingData {
     id: number;
@@ -305,6 +306,9 @@ const Profile: React.FC = () => {
 										</button>
 									</div>
 								</div>
+							</div>
+							<div style={{ marginTop: '30px' }}>
+								<ChangeUserDataForm />
 							</div>
 						</>
 					) : section === 2 ? (
