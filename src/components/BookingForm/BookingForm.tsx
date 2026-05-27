@@ -106,6 +106,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ sanatoriumId, sanatoriumName,
             return;
         }
 
+        if (pricing.days > 60) {
+            toast.error('Максимальний термін бронювання - 60 днів');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('sanatoriumId', sanatoriumId.toString());
         formData.append('checkInDate', checkInDate);
@@ -156,6 +161,29 @@ const BookingForm: React.FC<BookingFormProps> = ({ sanatoriumId, sanatoriumName,
 
     const outOfRooms = sanatorium?.availableRooms !== undefined && sanatorium.availableRooms <= 0;
 
+    const today = new Date();
+    const offset = today.getTimezoneOffset() * 60000;
+    const localToday = new Date(today.getTime() - offset);
+    
+    const minCheckInDate = localToday.toISOString().split('T')[0];
+    
+    const maxCheckInDateObj = new Date(localToday);
+    maxCheckInDateObj.setFullYear(maxCheckInDateObj.getFullYear() + 1);
+    const maxCheckInDate = maxCheckInDateObj.toISOString().split('T')[0];
+
+    const minCheckOutDate = checkInDate || minCheckInDate;
+    
+    let maxCheckOutDate = '';
+    if (checkInDate) {
+        const maxOut = new Date(checkInDate);
+        maxOut.setDate(maxOut.getDate() + 60);
+        maxCheckOutDate = maxOut.toISOString().split('T')[0];
+    } else {
+        const maxOut = new Date(localToday);
+        maxOut.setDate(maxOut.getDate() + 60);
+        maxCheckOutDate = maxOut.toISOString().split('T')[0];
+    }
+
     return (
         <div className={styles.formSection}>
             <h3 className={styles.formTitle}>Подати заявку на бронювання</h3>
@@ -189,10 +217,25 @@ const BookingForm: React.FC<BookingFormProps> = ({ sanatoriumId, sanatoriumName,
                             type="date"
                             className={styles.fieldInput}
                             value={checkInDate}
-                            onChange={(e) => setCheckInDate(e.target.value)}
-                            min={new Date().toISOString().split('T')[0]}
+                            onChange={(e) => {
+                                setCheckInDate(e.target.value);
+                                if (checkOutDate) {
+                                    const inTime = new Date(e.target.value).getTime();
+                                    const outTime = new Date(checkOutDate).getTime();
+                                    const diffDays = Math.ceil((outTime - inTime) / (1000 * 3600 * 24));
+                                    if (diffDays <= 0 || diffDays > 60) {
+                                        setCheckOutDate('');
+                                    }
+                                }
+                            }}
+                            onClick={(e) => {
+                                try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
+                            }}
+                            min={minCheckInDate}
+                            max={maxCheckInDate}
                             required
                             disabled={outOfRooms}
+                            style={{ cursor: 'pointer' }}
                         />
                     </div>
                     <div className={styles.fieldGroup}>
@@ -202,9 +245,14 @@ const BookingForm: React.FC<BookingFormProps> = ({ sanatoriumId, sanatoriumName,
                             className={styles.fieldInput}
                             value={checkOutDate}
                             onChange={(e) => setCheckOutDate(e.target.value)}
-                            min={checkInDate || new Date().toISOString().split('T')[0]}
+                            onClick={(e) => {
+                                try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
+                            }}
+                            min={minCheckOutDate}
+                            max={maxCheckOutDate}
                             required
                             disabled={outOfRooms}
+                            style={{ cursor: 'pointer' }}
                         />
                     </div>
                 </div>
