@@ -32,7 +32,10 @@ const Signup: React.FC = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<IUser>({ reValidateMode: "onSubmit" });
+    watch,
+  } = useForm<IUser & { confirmPassword?: string }>({ reValidateMode: "onSubmit" });
+
+  const password = watch("password");
 
   const { mutate } = useMutation({
     mutationKey: ["register"],
@@ -239,6 +242,25 @@ const Signup: React.FC = () => {
                   </div>
                   <p className={style.error}>
                     {errors.password ? errors.password.message : ""}
+                  </p>
+
+                  <div className={style.input_box}>
+                    <input
+                      {...register("confirmPassword", {
+                        required: "Please confirm your password",
+                        validate: (value) =>
+                          value === password || "Passwords do not match",
+                      })}
+                      className={style.input_field}
+                      placeholder=" "
+                      type={showPassword ? "text" : "password"}
+                    />
+                    <label htmlFor="confirmPassword" className={style.label}>
+                      Confirm Password
+                    </label>
+                  </div>
+                  <p className={style.error}>
+                    {errors.confirmPassword ? errors.confirmPassword.message : ""}
                   </p>
 
                   <div className={style.terms}>

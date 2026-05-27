@@ -38,7 +38,9 @@ const ChangeUserDataForm: React.FC = () => {
 	const { register: regName, handleSubmit: hsName, formState: { errors: errName } } = useForm<{name: string}>({ reValidateMode: 'onSubmit' });
 	const { register: regPhone, handleSubmit: hsPhone, formState: { errors: errPhone } } = useForm<{phone: string}>({ reValidateMode: 'onSubmit' });
 	const { register: regEmail, handleSubmit: hsEmail, formState: { errors: errEmail } } = useForm<{email: string}>({ reValidateMode: 'onSubmit' });
-	const { register: regPass, handleSubmit: hsPass, formState: { errors: errPass }, reset: resetPass } = useForm<{oldPassword?: string; newPassword?: string}>({ reValidateMode: 'onSubmit' });
+	const { register: regPass, handleSubmit: hsPass, formState: { errors: errPass }, reset: resetPass, watch: watchPass } = useForm<{oldPassword?: string; newPassword?: string; confirmNewPassword?: string}>({ reValidateMode: 'onSubmit' });
+
+	const newPasswordVal = watchPass('newPassword');
 
 	const onSubmitName: SubmitHandler<{name: string}> = (data) => {
 		if (data.name) mutateProfile({ name: data.name });
@@ -147,6 +149,18 @@ const ChangeUserDataForm: React.FC = () => {
 							error={!!errPass.newPassword}
 							helperText={errPass.newPassword?.message}
 							label="Новий пароль"
+							variant="outlined"
+							type="password"
+							style={{ flex: 1 }}
+						/>
+						<TextField
+							{...regPass('confirmNewPassword', {
+								required: 'Підтвердіть новий пароль',
+								validate: (value) => value === newPasswordVal || 'Паролі не співпадають',
+							})}
+							error={!!errPass.confirmNewPassword}
+							helperText={errPass.confirmNewPassword?.message}
+							label="Підтвердження пароля"
 							variant="outlined"
 							type="password"
 							style={{ flex: 1 }}
