@@ -112,20 +112,7 @@ const Profile: React.FC = () => {
 		verifyAccount(formData)
 	}
 
-	const [isEditingPhone, setIsEditingPhone] = useState(false)
-	const [newPhone, setNewPhone] = useState('')
-
-	const { mutate: updateProfile } = useMutation({
-		mutationFn: (data: { phone: string }) => authService.editUserData(data),
-		onSuccess: () => {
-			toast.success('Телефон успішно змінено')
-			queryClient.invalidateQueries({ queryKey: ['userData'] })
-			setIsEditingPhone(false)
-		},
-		onError: () => {
-			toast.error('Помилка при зміні телефону')
-		}
-	})
+	const [isEditingProfile, setIsEditingProfile] = useState(false)
 
 	const [payingBookingId, setPayingBookingId] = useState<number | null>(null)
 	const [cardNumber, setCardNumber] = useState('')
@@ -264,30 +251,29 @@ const Profile: React.FC = () => {
 											<div className={styles.avatar__right}>
 												<p className={styles.name}>{userData.user.name}</p>
 												<p className={styles.email}>{userData.user.email}</p>
-												<div style={{ marginTop: '10px' }}>
-													{isEditingPhone ? (
-														<div style={{ display: 'flex', gap: '10px' }}>
-															<input 
-																type="text" 
-																value={newPhone} 
-																onChange={e => setNewPhone(e.target.value)}
-																placeholder="+380..."
-																style={{ padding: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
-															/>
-															<button onClick={() => updateProfile({ phone: newPhone })} style={{ background: '#0d7377', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>Зберегти</button>
-															<button onClick={() => setIsEditingPhone(false)} style={{ background: '#ccc', color: 'black', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>Скасувати</button>
-														</div>
-													) : (
-														<p style={{ color: '#666' }}>
-															{userData.user.phone || 'Телефон не вказано'}
-															<span style={{ marginLeft: '10px', color: '#0d7377', cursor: 'pointer', textDecoration: 'underline', fontSize: '14px' }} onClick={() => { setIsEditingPhone(true); setNewPhone(userData.user.phone || ''); }}>Змінити</span>
-														</p>
-													)}
-												</div>
+												<p style={{ color: '#666', marginTop: '10px' }}>
+													{userData.user.phone || 'Телефон не вказано'}
+												</p>
 											</div>
 										</div>
 									</div>
-									<div className={styles.info__right}>
+									<div className={styles.info__right} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+										<button 
+											style={{
+												background: 'white', 
+												color: '#0d7377', 
+												border: '2px solid #0d7377', 
+												padding: '10px 20px', 
+												cursor: 'pointer',
+												fontFamily: 'Cormorant Garamond, serif',
+												fontSize: '16px',
+												textTransform: 'uppercase',
+												borderRadius: '50px'
+											}} 
+											onClick={() => setIsEditingProfile(!isEditingProfile)}
+										>
+											{isEditingProfile ? 'Скасувати редагування' : 'Редагувати профіль'}
+										</button>
 										<button 
 											style={{
 												background: 'linear-gradient(135deg, #0a5c5f, #0d7377, #14a3a8)', 
@@ -307,9 +293,11 @@ const Profile: React.FC = () => {
 									</div>
 								</div>
 							</div>
-							<div style={{ marginTop: '30px' }}>
-								<ChangeUserDataForm />
-							</div>
+							{isEditingProfile && (
+								<div style={{ marginTop: '30px' }}>
+									<ChangeUserDataForm />
+								</div>
+							)}
 						</>
 					) : section === 2 ? (
 						<>

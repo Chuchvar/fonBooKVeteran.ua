@@ -14,8 +14,9 @@ export interface IUser {
 }
 
 export interface IChangeUserData {
-	name: string
-	email: string
-	oldPassword: string
-	newPassword: string
+	name?: string
+	email?: string
+	phone?: string
+	oldPassword?: string
+	newPassword?: string
 }

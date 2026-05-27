@@ -16,30 +16,48 @@ const ChangeUserDataForm: React.FC = () => {
 	} = useForm<IChangeUserData>({ reValidateMode: 'onSubmit' });
 	const queryClient = useQueryClient();
 
-	const { mutate } = useMutation({
-		mutationKey: ['editUserData'],
-		mutationFn: (data: IChangeUserData) => authService.editUserData(data),
+	const { mutate: mutateProfile } = useMutation({
+		mutationKey: ['editUserProfile'],
+		mutationFn: (data: Partial<IChangeUserData>) => authService.editUserData(data),
 		onSuccess: () => {
-			toast.success('Your data was changed successfully');
+			toast.success('Профіль успішно оновлено');
 			queryClient.invalidateQueries({ queryKey: ['userData'] });
 		},
 		onError: (error: unknown) => {
 			const err = error as { message?: string };
-			toast.error(err.message || 'An error occurred');
+			toast.error(err.message || 'Помилка при оновленні профілю');
 		},
 	});
-	
-	
+
+	const { mutate: mutatePassword } = useMutation({
+		mutationKey: ['editUserPassword'],
+		mutationFn: (data: { currentPassword?: string, newPassword?: string }) => authService.updatePassword(data),
+		onSuccess: () => {
+			toast.success('Пароль успішно змінено');
+		},
+		onError: (error: unknown) => {
+			const err = error as { message?: string };
+			toast.error(err.message || 'Помилка при зміні пароля');
+		},
+	});
 
 	const onSubmit: SubmitHandler<IChangeUserData> = (data) => {
-		const editUserData = {
-			name: data.name,
-			email: data.email,
-			currentPassword: data.oldPassword,
-			newPassword: data.newPassword,
-		};
-		// @ts-expect-error This is needed because the types might not match exactly
-		mutate(editUserData);
+		const profileData: Record<string, string> = {};
+		if (data.name) profileData.name = data.name;
+		if (data.phone) profileData.phone = data.phone;
+		if (data.email) profileData.email = data.email;
+
+		if (Object.keys(profileData).length > 0) {
+			mutateProfile(profileData);
+		}
+
+		if (data.oldPassword && data.newPassword) {
+			mutatePassword({
+				currentPassword: data.oldPassword,
+				newPassword: data.newPassword,
+			});
+		}
+		
 		reset();
 	};
 
@@ -88,8 +106,20 @@ const ChangeUserDataForm: React.FC = () => {
 					variant="outlined"
 				/>
 				<TextField
+					{...register('phone', {
+						pattern: {
+							value: /^\+380\d{9}$/,
+							message: 'Введіть коректний номер (+380...)',
+						},
+					})}
+					error={!!errors.phone}
+					helperText={errors.phone?.message}
+					id="outlined-phone"
+					label="Phone (+380...)"
+					variant="outlined"
+				/>
+				<TextField
 					{...register('oldPassword', {
-						required: 'To change data enter your current password',
 						minLength: {
 							value: 8,
 							message: 'Password must be at least 8 characters long',

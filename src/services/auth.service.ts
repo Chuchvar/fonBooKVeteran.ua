@@ -67,6 +67,17 @@ class AuthService {
 		}
 	}
 
+	async updatePassword(formData: { currentPassword?: string, newPassword?: string }) {
+		try {
+			const { data } = await axios.put('/api/auth/password', formData)
+			return data
+		} catch (error: unknown) {
+			console.log(error)
+			const err = error as { response?: { data?: { error?: string } } };
+			throw new Error(err.response?.data?.error || "Error updating password")
+		}
+	}
+
 	async getMe() {
 		try {
 			const { data } = await axios.get(`/auth/me`)
