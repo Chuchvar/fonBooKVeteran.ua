@@ -216,24 +216,18 @@ const Profile: React.FC = () => {
 			</div>
 			<div className={styles.content}>
 				<div className={styles.left}>
-					<CiUser
-						onClick={() => setSection(1)}
-						className={styles.icon}
-						color='#0d7377'
-						size={30}
-					/>
-					<CiBookmarkCheck
-						onClick={() => setSection(2)}
-						className={styles.icon}
-						color='#0d7377'
-						size={30}
-					/>
-					<CiCircleCheck
-						onClick={() => setSection(3)}
-						className={styles.icon}
-						color='#0d7377'
-						size={30}
-					/>
+					<div onClick={() => setSection(1)} className={`${styles.sidebarItem} ${section === 1 ? styles.active : ''}`}>
+						<CiUser className={styles.icon} color='#0d7377' size={24} />
+						<span className={styles.sidebarText}>Мій Профіль</span>
+					</div>
+					<div onClick={() => setSection(2)} className={`${styles.sidebarItem} ${section === 2 ? styles.active : ''}`}>
+						<CiBookmarkCheck className={styles.icon} color='#0d7377' size={24} />
+						<span className={styles.sidebarText}>Мої Заявки</span>
+					</div>
+					<div onClick={() => setSection(3)} className={`${styles.sidebarItem} ${section === 3 ? styles.active : ''}`}>
+						<CiCircleCheck className={styles.icon} color='#0d7377' size={24} />
+						<span className={styles.sidebarText}>Верифікація</span>
+					</div>
 				</div>
 				<div className={styles.right}>
 					{section === 1 ? (
