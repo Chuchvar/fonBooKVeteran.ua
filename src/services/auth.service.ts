@@ -5,7 +5,6 @@ class AuthService {
 
     async signup(user: IUser) {
         try {
-            // Тепер запит піде на твій комп'ютер через глобальний axios
             const { data } = await axios.post<IUser>(
                 '/api/auth/signup',
                 user

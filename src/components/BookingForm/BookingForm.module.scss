@@ -97,6 +97,9 @@
   position: relative; /* For the datepicker indicator */
 
   &:focus {
+    border-color: var(--primary-color);
+  }
+
   &[type="date"] {
     position: relative;
     cursor: pointer;
