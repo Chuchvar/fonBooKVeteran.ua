@@ -9,10 +9,11 @@ import SupportTab from './components/SupportTab';
 import VerificationsTab from './components/VerificationsTab';
 import SanatoriumsTab from './components/SanatoriumsTab';
 import AuditLogsTab from './components/AuditLogsTab';
+import AdminsTab from './components/AdminsTab';
 import styles from './AdminPanel.module.scss';
 
 const AdminPanel: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'dashboard' | 'sanatoriums' | 'bookings' | 'support' | 'verifications' | 'audit'>('dashboard');
+    const [activeTab, setActiveTab] = useState<'dashboard' | 'sanatoriums' | 'bookings' | 'support' | 'verifications' | 'audit' | 'admins'>('dashboard');
     const navigate = useNavigate();
 
     // Перевірка прав адміністратора
@@ -82,6 +83,12 @@ const AdminPanel: React.FC = () => {
                     >
                         Журнал аудиту
                     </button>
+                    <button 
+                        className={`${styles.tab} ${activeTab === 'admins' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('admins')}
+                    >
+                        Адміністратори
+                    </button>
                 </div>
 
                 {/* Вкладка: Дашборд */}
@@ -103,6 +110,9 @@ const AdminPanel: React.FC = () => {
 
                 {/* Вкладка: Аудит */}
                 {activeTab === 'audit' && <AuditLogsTab />}
+
+                {/* Вкладка: Адміністратори */}
+                {activeTab === 'admins' && <AdminsTab />}
             </div>
         </div>
     );

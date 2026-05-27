@@ -99,7 +99,6 @@ class AuthService {
 	}
 
 	async logout() {
-		// Оскільки токени JWT зберігаються локально, нам не потрібно робити запит на бекенд
 		return true;
 	}
 }
