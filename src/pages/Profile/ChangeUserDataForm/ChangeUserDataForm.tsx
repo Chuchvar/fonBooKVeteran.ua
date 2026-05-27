@@ -8,31 +8,18 @@ import styles from './ChangeUserDataForm.module.scss';
 import { toast } from 'react-toastify';
 
 const ChangeUserDataForm: React.FC = () => {
-	const {
-		register: registerProfile,
-		handleSubmit: handleSubmitProfile,
-		formState: { errors: errorsProfile },
-		reset: resetProfile,
-	} = useForm<IChangeUserData>({ reValidateMode: 'onSubmit' });
-
-	const {
-		register: registerPassword,
-		handleSubmit: handleSubmitPassword,
-		formState: { errors: errorsPassword },
-		reset: resetPassword,
-	} = useForm<{ oldPassword?: string; newPassword?: string }>({ reValidateMode: 'onSubmit' });
 	const queryClient = useQueryClient();
 
 	const { mutate: mutateProfile } = useMutation({
 		mutationKey: ['editUserProfile'],
 		mutationFn: (data: Partial<IChangeUserData>) => authService.editUserData(data),
 		onSuccess: () => {
-			toast.success('Профіль успішно оновлено');
+			toast.success('Дані успішно оновлено');
 			queryClient.invalidateQueries({ queryKey: ['userData'] });
 		},
 		onError: (error: unknown) => {
 			const err = error as { message?: string };
-			toast.error(err.message || 'Помилка при оновленні профілю');
+			toast.error(err.message || 'Помилка при оновленні даних');
 		},
 	});
 
@@ -48,16 +35,21 @@ const ChangeUserDataForm: React.FC = () => {
 		},
 	});
 
-	const onSubmitProfile: SubmitHandler<IChangeUserData> = (data) => {
-		const profileData: Record<string, string> = {};
-		if (data.name) profileData.name = data.name;
-		if (data.phone) profileData.phone = data.phone;
-		if (data.email) profileData.email = data.email;
+	const { register: regName, handleSubmit: hsName, formState: { errors: errName } } = useForm<{name: string}>({ reValidateMode: 'onSubmit' });
+	const { register: regPhone, handleSubmit: hsPhone, formState: { errors: errPhone } } = useForm<{phone: string}>({ reValidateMode: 'onSubmit' });
+	const { register: regEmail, handleSubmit: hsEmail, formState: { errors: errEmail } } = useForm<{email: string}>({ reValidateMode: 'onSubmit' });
+	const { register: regPass, handleSubmit: hsPass, formState: { errors: errPass }, reset: resetPass } = useForm<{oldPassword?: string; newPassword?: string}>({ reValidateMode: 'onSubmit' });
 
-		if (Object.keys(profileData).length > 0) {
-			mutateProfile(profileData);
-		}
-		resetProfile();
+	const onSubmitName: SubmitHandler<{name: string}> = (data) => {
+		if (data.name) mutateProfile({ name: data.name });
+	};
+
+	const onSubmitPhone: SubmitHandler<{phone: string}> = (data) => {
+		if (data.phone) mutateProfile({ phone: data.phone });
+	};
+
+	const onSubmitEmail: SubmitHandler<{email: string}> = (data) => {
+		if (data.email) mutateProfile({ email: data.email });
 	};
 
 	const onSubmitPassword: SubmitHandler<{ oldPassword?: string; newPassword?: string }> = (data) => {
@@ -66,7 +58,7 @@ const ChangeUserDataForm: React.FC = () => {
 				currentPassword: data.oldPassword,
 				newPassword: data.newPassword,
 			});
-			resetPassword();
+			resetPass();
 		} else {
 			toast.error('Заповніть обидва поля для зміни пароля');
 		}
@@ -80,109 +72,86 @@ const ChangeUserDataForm: React.FC = () => {
 				{/* Форма 1: Особисті дані */}
 				<div>
 					<p className={styles.edit} style={{ marginBottom: '15px' }}>Особисті дані</p>
-					<form onSubmit={handleSubmitProfile(onSubmitProfile)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+					
+					<form onSubmit={hsName(onSubmitName)} style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
 						<TextField
-							{...registerProfile('name', {
-								minLength: {
-									value: 3,
-									message: "Ім'я має містити щонайменше 3 символи",
-								},
-								maxLength: {
-									value: 50,
-									message: 'ПІБ не має перевищувати 50 символів',
-								},
-								pattern: {
-									value: /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ\s]+$/,
-									message: "Ім'я може містити лише літери",
-								},
+							{...regName('name', {
+								required: 'Введіть нове ім\'я',
+								minLength: { value: 3, message: "Ім'я має містити щонайменше 3 символи" },
+								maxLength: { value: 50, message: 'ПІБ не має перевищувати 50 символів' },
+								pattern: { value: /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ\s]+$/, message: "Ім'я може містити лише літери" },
 							})}
-							error={!!errorsProfile.name}
-							helperText={errorsProfile.name?.message}
-							id="outlined-basic-name"
-							label="ПІБ"
+							error={!!errName.name}
+							helperText={errName.name?.message}
+							label="Нове ПІБ"
 							variant="outlined"
+							style={{ flex: 1 }}
 						/>
+						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти ПІБ</button>
+					</form>
+
+					<form onSubmit={hsEmail(onSubmitEmail)} style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
 						<TextField
-							{...registerProfile('email', {
-								pattern: {
-									value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-									message: 'Введіть коректну email адресу',
-								},
-								maxLength: {
-									value: 100,
-									message: 'Email не має перевищувати 100 символів',
-								},
+							{...regEmail('email', {
+								required: 'Введіть новий email',
+								pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Введіть коректну email адресу' },
+								maxLength: { value: 100, message: 'Email не має перевищувати 100 символів' },
 							})}
-							error={!!errorsProfile.email}
-							helperText={errorsProfile.email?.message}
-							id="outlined-basic-email"
-							label="Email"
+							error={!!errEmail.email}
+							helperText={errEmail.email?.message}
+							label="Новий Email"
 							variant="outlined"
+							style={{ flex: 1 }}
 						/>
+						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти Email</button>
+					</form>
+
+					<form onSubmit={hsPhone(onSubmitPhone)} style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
 						<TextField
-							{...registerProfile('phone', {
-								pattern: {
-									value: /^\+380\d{9}$/,
-									message: 'Введіть коректний номер (+380...)',
-								},
+							{...regPhone('phone', {
+								required: 'Введіть новий номер',
+								pattern: { value: /^\+380\d{9}$/, message: 'Введіть коректний номер (+380...)' },
 							})}
-							error={!!errorsProfile.phone}
-							helperText={errorsProfile.phone?.message}
-							id="outlined-phone"
-							label="Телефон (+380...)"
+							error={!!errPhone.phone}
+							helperText={errPhone.phone?.message}
+							label="Новий телефон (+380...)"
 							variant="outlined"
+							style={{ flex: 1 }}
 						/>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<button type="submit" style={{ width: '100%' }}>Зберегти дані</button>
-						</div>
+						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти телефон</button>
 					</form>
 				</div>
 
-				{/* Форма 2: Зміна пароля */}
 				<div style={{ borderTop: '1px solid #ccc', paddingTop: '30px' }}>
 					<p className={styles.edit} style={{ marginBottom: '15px' }}>Зміна пароля</p>
-					<form onSubmit={handleSubmitPassword(onSubmitPassword)} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+					<form onSubmit={hsPass(onSubmitPassword)} style={{ display: 'flex', gap: '15px' }}>
 						<TextField
-							{...registerPassword('oldPassword', {
-								required: 'Для зміни пароля введіть поточний пароль',
-								minLength: {
-									value: 8,
-									message: 'Пароль має містити щонайменше 8 символів',
-								},
-								pattern: {
-									value: /\d/,
-									message: 'Пароль має містити щонайменше одну цифру',
-								},
+							{...regPass('oldPassword', {
+								required: 'Введіть поточний пароль',
+								minLength: { value: 8, message: 'Щонайменше 8 символів' },
+								pattern: { value: /\d/, message: 'Щонайменше одна цифра' },
 							})}
-							error={!!errorsPassword.oldPassword}
-							helperText={errorsPassword.oldPassword?.message}
-							id="outlined-basic-oldpass"
+							error={!!errPass.oldPassword}
+							helperText={errPass.oldPassword?.message}
 							label="Поточний пароль"
 							variant="outlined"
 							type="password"
+							style={{ flex: 1 }}
 						/>
 						<TextField
-							{...registerPassword('newPassword', {
+							{...regPass('newPassword', {
 								required: 'Введіть новий пароль',
-								minLength: {
-									value: 8,
-									message: 'Пароль має містити щонайменше 8 символів',
-								},
-								pattern: {
-									value: /\d/,
-									message: 'Пароль має містити щонайменше одну цифру',
-								},
+								minLength: { value: 8, message: 'Щонайменше 8 символів' },
+								pattern: { value: /\d/, message: 'Щонайменше одна цифра' },
 							})}
-							error={!!errorsPassword.newPassword}
-							helperText={errorsPassword.newPassword?.message}
-							id="outlined-basic-newpass"
+							error={!!errPass.newPassword}
+							helperText={errPass.newPassword?.message}
 							label="Новий пароль"
 							variant="outlined"
 							type="password"
+							style={{ flex: 1 }}
 						/>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<button type="submit" style={{ width: '100%' }}>Змінити пароль</button>
-						</div>
+						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Змінити пароль</button>
 					</form>
 				</div>
 			</div>
