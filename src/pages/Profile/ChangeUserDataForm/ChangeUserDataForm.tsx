@@ -7,6 +7,17 @@ import { IChangeUserData } from '../../../types/user.type';
 import styles from './ChangeUserDataForm.module.scss';
 import { toast } from 'react-toastify';
 
+const textFieldSx = {
+	'& .MuiOutlinedInput-root': {
+		'& fieldset': { borderColor: 'var(--border-color, #ccc)' },
+		'&:hover fieldset': { borderColor: 'var(--text-main, #333)' },
+		'&.Mui-focused fieldset': { borderColor: '#0d7377' },
+	},
+	'& .MuiInputBase-input': { color: 'var(--text-main, #333)' },
+	'& .MuiInputLabel-root': { color: 'var(--text-muted, #666)' },
+	'& .MuiInputLabel-root.Mui-focused': { color: '#0d7377' },
+};
+
 const ChangeUserDataForm: React.FC = () => {
 	const queryClient = useQueryClient();
 
@@ -87,6 +98,7 @@ const ChangeUserDataForm: React.FC = () => {
 							helperText={errName.name?.message}
 							label="Нове ПІБ"
 							variant="outlined"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти ПІБ</button>
@@ -103,6 +115,7 @@ const ChangeUserDataForm: React.FC = () => {
 							helperText={errEmail.email?.message}
 							label="Новий Email"
 							variant="outlined"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти Email</button>
@@ -118,6 +131,7 @@ const ChangeUserDataForm: React.FC = () => {
 							helperText={errPhone.phone?.message}
 							label="Новий телефон (+380...)"
 							variant="outlined"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Зберегти телефон</button>
@@ -138,6 +152,7 @@ const ChangeUserDataForm: React.FC = () => {
 							label="Поточний пароль"
 							variant="outlined"
 							type="password"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<TextField
@@ -151,6 +166,7 @@ const ChangeUserDataForm: React.FC = () => {
 							label="Новий пароль"
 							variant="outlined"
 							type="password"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<TextField
@@ -163,6 +179,7 @@ const ChangeUserDataForm: React.FC = () => {
 							label="Підтвердження пароля"
 							variant="outlined"
 							type="password"
+							sx={textFieldSx}
 							style={{ flex: 1 }}
 						/>
 						<button type="submit" style={{ padding: '0 20px', whiteSpace: 'nowrap', height: '56px' }}>Змінити пароль</button>
