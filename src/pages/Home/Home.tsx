@@ -21,7 +21,6 @@ const Home: React.FC = () => {
     const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [debouncedSearch, setDebouncedSearch] = useState('');
 
-    // Debounce search
     useEffect(() => {
         if (searchTimeout.current) clearTimeout(searchTimeout.current);
         searchTimeout.current = setTimeout(() => {
@@ -31,8 +30,7 @@ const Home: React.FC = () => {
         return () => { if (searchTimeout.current) clearTimeout(searchTimeout.current); };
     }, [searchFilter]);
 
-    // Reset page on filter change
-    useEffect(() => { setCurrentPage(0); }, [regionFilter, specializationFilter, minPriceFilter, maxPriceFilter, minRatingFilter]);
+    useEffect(() => { setCurrentPage(0); }, [regionFilter, specializationFilter, minPriceFilter, maxPriceFilter, minRatingFilter, debouncedSearch]);
 
     const filters: ISanatoriumFilters = {
         search: debouncedSearch || undefined,
@@ -40,8 +38,8 @@ const Home: React.FC = () => {
         specialization: specializationFilter || undefined,
         minPrice: minPriceFilter ? Number(minPriceFilter) : undefined,
         maxPrice: maxPriceFilter ? Number(maxPriceFilter) : undefined,
-        page: currentPage,
-        size: ITEMS_PER_PAGE,
+        page: 0,
+        size: 1000,
     };
 
     const { data: pageData, isLoading, isError } = useQuery({
@@ -56,8 +54,7 @@ const Home: React.FC = () => {
         staleTime: 300000,
     });
 
-    // Filter by min rating on client side (since it involves @Transient averageRating)
-    const sanatoriums = pageData?.content?.filter(s => {
+    const allFilteredSanatoriums = pageData?.content?.filter(s => {
         if (minRatingFilter > 0) {
             const avg = s.averageRating ?? 0;
             const bookingNorm = (s.ratingBooking ?? 0) / 2; // normalize to 5
@@ -68,11 +65,14 @@ const Home: React.FC = () => {
         return true;
     }) ?? [];
 
-    // Live rating simulation
+    const totalElements = allFilteredSanatoriums.length;
+    const totalPages = Math.ceil(totalElements / ITEMS_PER_PAGE);
+    
+    const sanatoriums = allFilteredSanatoriums.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
+
     useEffect(() => {
         if (!sanatoriums || sanatoriums.length === 0) return;
 
-        // Init live ratings from server data
         const initial: Record<number, { booking: number; tripAdvisor: number }> = {};
         sanatoriums.forEach(s => {
             if (!liveRatings[s.id]) {
@@ -94,7 +94,6 @@ const Home: React.FC = () => {
                     if (next[s.id]) {
                         const bBase = s.ratingBooking ?? 0;
                         const tBase = s.ratingTripAdvisor ?? 0;
-                        // Random fluctuation ±0.1
                         const bDelta = (Math.random() - 0.5) * 0.2;
                         const tDelta = (Math.random() - 0.5) * 0.2;
                         next[s.id] = {
@@ -125,9 +124,6 @@ const Home: React.FC = () => {
         setMinRatingFilter(0);
         setCurrentPage(0);
     };
-
-    const totalPages = pageData?.totalPages ?? 0;
-    const totalElements = pageData?.totalElements ?? 0;
 
     const renderPagination = () => {
         if (totalPages <= 1) return null;
@@ -194,7 +190,7 @@ const Home: React.FC = () => {
                     Знайдіть ідеальне місце для реабілітації та відпочинку
                 </p>
 
-                {/* Filter Panel */}
+                
                 <div className={styles.filterContainer}>
                     <div className={styles.filterHeader}>
                         <span className={styles.filterIcon}>🔎</span>
@@ -202,7 +198,7 @@ const Home: React.FC = () => {
                     </div>
 
                     <div className={styles.filterGrid}>
-                        {/* Search */}
+                        
                         <div className={styles.filterGroup}>
                             <label className={styles.filterLabel}>🔍 Пошук за назвою</label>
                             <input
@@ -214,7 +210,7 @@ const Home: React.FC = () => {
                             />
                         </div>
 
-                        {/* Region */}
+                        
                         <div className={styles.filterGroup}>
                             <label className={styles.filterLabel}>📍 Регіон</label>
                             <select
@@ -229,7 +225,7 @@ const Home: React.FC = () => {
                             </select>
                         </div>
 
-                        {/* Specialization */}
+                        
                         <div className={styles.filterGroup}>
                             <label className={styles.filterLabel}>⚕️ Спеціалізація</label>
                             <select
@@ -244,7 +240,7 @@ const Home: React.FC = () => {
                             </select>
                         </div>
 
-                        {/* Price Range */}
+                        
                         <div className={styles.filterGroup}>
                             <label className={styles.filterLabel}>💰 Ціна (грн/день)</label>
                             <div className={styles.priceRange}>
@@ -269,7 +265,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Rating Filter */}
+                    
                     <div className={styles.ratingFilterRow}>
                         <label className={styles.filterLabel}>⭐ Мінімальний рейтинг</label>
                         <div className={styles.ratingBtns}>
@@ -285,7 +281,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Filter Actions */}
+                    
                     {hasFilters && (
                         <div className={styles.filterActions}>
                             <button className={styles.clearBtn} onClick={clearFilters}>
@@ -298,7 +294,7 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                {/* Page info */}
+                
                 {!isLoading && totalElements > 0 && (
                     <div className={styles.pageInfo}>
                         Сторінка {currentPage + 1} з {totalPages} · Всього {totalElements} санаторіїв
@@ -313,7 +309,7 @@ const Home: React.FC = () => {
                 )}
                 {isError && <div className={styles.error}>Виникла помилка під час завантаження санаторіїв.</div>}
 
-                {/* Cards Grid */}
+                
                 <div className={styles.grid}>
                     {sanatoriums && sanatoriums.length > 0 ? (
                         sanatoriums.map((sanatorium: ISanatorium) => {
@@ -332,7 +328,7 @@ const Home: React.FC = () => {
                                         className={styles.cardImage}
                                         style={{ backgroundImage: `url(${sanatorium.imagePaths && sanatorium.imagePaths.length > 0 ? sanatorium.imagePaths[0] : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'})` }}
                                     >
-                                        {/* External Ratings Badges */}
+                                        
                                         <div className={styles.ratingBadges}>
                                             {bookingVal > 0 && (
                                                 <div className={`${styles.badge} ${styles.badgeBooking} ${isFlashing ? styles.badgeFlash : ''}`}>
@@ -348,7 +344,7 @@ const Home: React.FC = () => {
                                             )}
                                         </div>
 
-                                        {/* Discount Badge */}
+                                        
                                         {sanatorium.discountPercentage && sanatorium.discountPercentage > 0 && (
                                             <div className={styles.discountBadge}>
                                                 -{sanatorium.discountPercentage}%
@@ -400,7 +396,7 @@ const Home: React.FC = () => {
                     )}
                 </div>
 
-                {/* Pagination */}
+                
                 {renderPagination()}
             </div>
         </div>

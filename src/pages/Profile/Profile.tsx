@@ -111,7 +111,21 @@ const Profile: React.FC = () => {
 		verifyAccount(formData)
 	}
 
-	// Payment states
+	const [isEditingPhone, setIsEditingPhone] = useState(false)
+	const [newPhone, setNewPhone] = useState('')
+
+	const { mutate: updateProfile } = useMutation({
+		mutationFn: (data: { phone: string }) => authService.editUserData(data),
+		onSuccess: () => {
+			toast.success('Телефон успішно змінено')
+			queryClient.invalidateQueries({ queryKey: ['userData'] })
+			setIsEditingPhone(false)
+		},
+		onError: () => {
+			toast.error('Помилка при зміні телефону')
+		}
+	})
+
 	const [payingBookingId, setPayingBookingId] = useState<number | null>(null)
 	const [cardNumber, setCardNumber] = useState('')
 	const [cardExpiry, setCardExpiry] = useState('')
@@ -249,6 +263,26 @@ const Profile: React.FC = () => {
 											<div className={styles.avatar__right}>
 												<p className={styles.name}>{userData.user.name}</p>
 												<p className={styles.email}>{userData.user.email}</p>
+												<div style={{ marginTop: '10px' }}>
+													{isEditingPhone ? (
+														<div style={{ display: 'flex', gap: '10px' }}>
+															<input 
+																type="text" 
+																value={newPhone} 
+																onChange={e => setNewPhone(e.target.value)}
+																placeholder="+380..."
+																style={{ padding: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+															/>
+															<button onClick={() => updateProfile({ phone: newPhone })} style={{ background: '#0d7377', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>Зберегти</button>
+															<button onClick={() => setIsEditingPhone(false)} style={{ background: '#ccc', color: 'black', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>Скасувати</button>
+														</div>
+													) : (
+														<p style={{ color: '#666' }}>
+															{userData.user.phone || 'Телефон не вказано'}
+															<span style={{ marginLeft: '10px', color: '#0d7377', cursor: 'pointer', textDecoration: 'underline', fontSize: '14px' }} onClick={() => { setIsEditingPhone(true); setNewPhone(userData.user.phone || ''); }}>Змінити</span>
+														</p>
+													)}
+												</div>
 											</div>
 										</div>
 									</div>

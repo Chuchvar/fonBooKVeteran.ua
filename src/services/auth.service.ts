@@ -56,9 +56,9 @@ class AuthService {
 		return data
 	}
 
-	async editUserData(formData: IChangeUserData) {
+	async editUserData(formData: Record<string, string>) {
 		try {
-			const { data } = await axios.put('/api/user', formData)
+			const { data } = await axios.put('/api/auth/profile', formData)
 			return data
 		} catch (error: unknown) {
 			console.log(error)
