@@ -15,7 +15,7 @@ const BookingsTab: React.FC = () => {
     const [rejectingBookingId, setRejectingBookingId] = useState<number | null>(null);
     const [rejectReason, setRejectReason] = useState('');
     const [rejectPredefinedReason, setRejectPredefinedReason] = useState('');
-    const [historyUser, setHistoryUser] = useState<Record<string, unknown> | null>(null);
+    const [historyUser, setHistoryUser] = useState<any | null>(null);
 
     const { data: bookings, isLoading: isBookingsLoading } = useQuery({
         queryKey: ['allBookings'],
@@ -25,7 +25,7 @@ const BookingsTab: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
 
-    const filteredBookings = bookings?.filter((b: Record<string, unknown>) => {
+    const filteredBookings = bookings?.filter((b: any) => {
         const matchesSearch = 
             b.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
             b.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -147,7 +147,7 @@ const BookingsTab: React.FC = () => {
                         </thead>
                         <tbody>
                             {filteredBookings?.length > 0 ? (
-                                filteredBookings.map((booking: Record<string, unknown>) => (
+                                filteredBookings.map((booking: any) => (
                                     <tr key={booking.id}>
                                         <td 
                                             style={{ cursor: 'pointer' }}
@@ -369,8 +369,8 @@ const BookingsTab: React.FC = () => {
 
                         <h4 style={{ marginBottom: '10px' }}>Історія заявок</h4>
                         <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                            {bookings?.filter((b: Record<string, unknown>) => (b.user as Record<string, unknown>)?.id === historyUser.id).length > 0 ? (
-                                bookings?.filter((b: Record<string, unknown>) => (b.user as Record<string, unknown>)?.id === historyUser.id).map((b: Record<string, unknown>) => (
+                            {bookings?.filter((b: any) => (b.user as any)?.id === historyUser.id).length > 0 ? (
+                                bookings?.filter((b: any) => (b.user as any)?.id === historyUser.id).map((b: any) => (
                                     <div key={b.id} style={{ borderBottom: '1px solid #eee', padding: '10px 0' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                                             <strong>{b.sanatorium?.name}</strong>

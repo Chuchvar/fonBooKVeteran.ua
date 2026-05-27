@@ -321,7 +321,7 @@ const Profile: React.FC = () => {
 														{booking.rejectionReason}
 													</div>
 												)}
-												{booking.status === 'CONFIRMED' && booking.totalPrice > 0 && (
+												{booking.status === 'CONFIRMED' && booking.totalPrice !== undefined && booking.totalPrice > 0 && (
 													<div style={{ marginTop: '12px' }}>
 														{payingBookingId === booking.id ? (
 															<form onSubmit={handlePaymentSubmit} style={{ background: '#f5f9ff', padding: '15px', borderRadius: '8px', border: '1px solid #bbdefb' }}>
