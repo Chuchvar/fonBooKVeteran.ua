@@ -14,7 +14,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 declare global {
   interface Window {
-    google?: unknown;
+    google?: any;
   }
 }
 
@@ -40,7 +40,7 @@ const Signup: React.FC = () => {
     onMutate() {
       setIsLoading(true);
     },
-    onSuccess(data, variables) {
+    onSuccess(data: any, variables) {
       setRegisteredEmail(variables.email);
       setComplete(true);
       toast.success(data.message || "Успішна реєстрація! Перевірте email.");
@@ -59,7 +59,7 @@ const Signup: React.FC = () => {
   const handleGoogleCallback = async (response: { credential?: string }) => {
     try {
       setIsLoading(true);
-      const data = await authService.googleLogin(response.credential);
+      const data = await authService.googleLogin(response.credential || '');
       if (data.token) {
         window.localStorage.setItem("jwt", data.token);
       }

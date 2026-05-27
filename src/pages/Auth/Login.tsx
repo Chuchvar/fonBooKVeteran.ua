@@ -14,7 +14,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 declare global {
 	interface Window {
-		google?: unknown;
+		google?: any;
 	}
 }
 
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
 	const handleGoogleCallback = async (response: { credential?: string }) => {
 		try {
 			setIsLoading(true)
-			const data = await authService.googleLogin(response.credential)
+			const data = await authService.googleLogin(response.credential || '')
 			if (data.token) {
 				window.localStorage.setItem("jwt", data.token)
 			}
