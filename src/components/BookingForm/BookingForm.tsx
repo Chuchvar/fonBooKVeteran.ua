@@ -213,47 +213,61 @@ const BookingForm: React.FC<BookingFormProps> = ({ sanatoriumId, sanatoriumName,
                 <div className={styles.row}>
                     <div className={styles.fieldGroup}>
                         <label className={styles.fieldLabel}>Дата заїзду</label>
-                        <input
-                            type="date"
-                            className={styles.fieldInput}
-                            value={checkInDate}
-                            onChange={(e) => {
-                                setCheckInDate(e.target.value);
-                                if (checkOutDate) {
-                                    const inTime = new Date(e.target.value).getTime();
-                                    const outTime = new Date(checkOutDate).getTime();
-                                    const diffDays = Math.ceil((outTime - inTime) / (1000 * 3600 * 24));
-                                    if (diffDays <= 0 || diffDays > 60) {
-                                        setCheckOutDate('');
+                        <div className={styles.dateInputWrapper}>
+                            <input
+                                type="date"
+                                className={styles.fieldInput}
+                                value={checkInDate}
+                                onChange={(e) => {
+                                    setCheckInDate(e.target.value);
+                                    if (checkOutDate) {
+                                        const inTime = new Date(e.target.value).getTime();
+                                        const outTime = new Date(checkOutDate).getTime();
+                                        const diffDays = Math.ceil((outTime - inTime) / (1000 * 3600 * 24));
+                                        if (diffDays <= 0 || diffDays > 60) {
+                                            setCheckOutDate('');
+                                        }
                                     }
-                                }
-                            }}
-                            onClick={(e) => {
-                                try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
-                            }}
-                            min={minCheckInDate}
-                            max={maxCheckInDate}
-                            required
-                            disabled={outOfRooms}
-                            style={{ cursor: 'pointer' }}
-                        />
+                                }}
+                                onClick={(e) => {
+                                    try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
+                                }}
+                                min={minCheckInDate}
+                                max={maxCheckInDate}
+                                required
+                                disabled={outOfRooms}
+                            />
+                            <svg className={styles.dateIcon} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
                     </div>
                     <div className={styles.fieldGroup}>
                         <label className={styles.fieldLabel}>Дата виїзду</label>
-                        <input
-                            type="date"
-                            className={styles.fieldInput}
-                            value={checkOutDate}
-                            onChange={(e) => setCheckOutDate(e.target.value)}
-                            onClick={(e) => {
-                                try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
-                            }}
-                            min={minCheckOutDate}
-                            max={maxCheckOutDate}
-                            required
-                            disabled={outOfRooms}
-                            style={{ cursor: 'pointer' }}
-                        />
+                        <div className={styles.dateInputWrapper}>
+                            <input
+                                type="date"
+                                className={styles.fieldInput}
+                                value={checkOutDate}
+                                onChange={(e) => setCheckOutDate(e.target.value)}
+                                onClick={(e) => {
+                                    try { (e.target as HTMLInputElement).showPicker(); } catch (err) {}
+                                }}
+                                min={minCheckOutDate}
+                                max={maxCheckOutDate}
+                                required
+                                disabled={outOfRooms}
+                            />
+                            <svg className={styles.dateIcon} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
