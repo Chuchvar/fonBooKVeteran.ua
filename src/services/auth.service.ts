@@ -56,7 +56,7 @@ class AuthService {
 		return data
 	}
 
-	async editUserData(formData: Record<string, string>) {
+	async editUserData(formData: IChangeUserData | Record<string, string>) {
 		try {
 			const { data } = await axios.put('/api/auth/profile', formData)
 			return data
